@@ -29,7 +29,7 @@ public class EchoClient{
 			String clientInput = scan.nextLine();
 			//exits the loop if user inputs LEAVE
 			if (clientInput.equals("LEAVE")){
-				System.out.println("Socket closed");
+				System.out.println("Socket closed!");
 				break;
 			}
 			//sends socket output stream, which goes go to the server socket
@@ -40,4 +40,5 @@ public class EchoClient{
 		}
 	}
 }
+
 
