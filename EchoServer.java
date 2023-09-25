@@ -18,7 +18,7 @@ public class  EchoServer{
         // connects both client and server sockets initialized as s(not to be confused with the other socket s on the client side)
         Socket s = ss.accept();
         //when it connects this message is prompted
-        System.out.println("client connected");
+        System.out.println("Client Connected to Server");
         // send data from the socket's output stream(server), going to the client side
         PrintWriter out = new PrintWriter(s.getOutputStream(), true);
         //send data to the socket's input stream(server), coming from the client side
@@ -34,9 +34,13 @@ public class  EchoServer{
             }
         } 
 
-        //catches socket closed error, and makes the console output more clear
-        catch (SocketException e) {
+        // //catches socket closed error, and makes the console output more clear
+        // catch (SocketException e) {
+        //     System.out.println("Client disconnected because they entered the word LEAVE");
+        // }   
+
+        catch(IOException e){
             System.out.println("Client disconnected because they entered the word LEAVE");
-        }   
+        }
 	}
 }
