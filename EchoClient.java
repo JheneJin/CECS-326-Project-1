@@ -1,39 +1,34 @@
 /**
- * An echo client. The client enters data to the server, and the
- * server echoes the data back to the client.
- */
-// socket
-import java.net.*;
 import java.io.*;
-import java.util.Scanner;
 
-public class EchoClient
-{	
-	// everything goes to the server side
-	public static void main(String[] args) throws IOException {
-		try{
-		Socket s = new Socket("localhost", 6007);
-		// send data to the socket's output stream, going to the server side
-		PrintWriter out = new PrintWriter(s.getOutputStream(), true);
-		//wraps around inputstreamreader by reading in large chunks instead of one character at a time
-		BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-		//makes life easier?
-        // BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-		
-		Scanner scan = new Scanner(System.in);
-		while (true) {
-			System.out.println("Plrease Enter text: ");
-			String input = scan.nextLine();
-			if ("exit".equalsIgnoreCase(input)){
-				break;
-			}
-			out.println(input);
-			//takes input from the server side
-			String response = in.readLine();
-			System.out.println("server response is: " + response);
-		}
-	} catch (IOException e){
-		e.printStackTrace();
-	}
+public class  EchoServer
+{
+    //goes to the client side
+    public static void main(String[] args) throws IOException {
+        try {
+        //creates server socket
+		ServerSocket ss = new ServerSocket(6007);
+        // connects both client and server sockets initialized as s(not to be confused with the other socket s on the client side)
+        Socket s = ss.accept();
+        //when it connects this message is prompted
+        System.out.println("client connected");
+        // send data to the socket's output stream(server), going to the client side
+        PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+        //recieve data to the socket's input stream(client), coming to the server side
+        BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+        String clientInput; 
+        //loops echos between the server and client side until the user enters LEAVE or enters a blank space
+        //gets the client's input
+        while((clientInput = in.readLine()) != "LEAVE"){
+            //prints out the clientInput on the server
+            System.out.println("On Server :" + clientInput);
+            //echos back to the client
+            out.println(clientInput);
+            }
+        } 
+        //catches socket closed error, and makes the console output more clear
+        catch (SocketException e) {
+            System.out.println("Client disconnected because they entered the word LEAVE");
+        }   
 	}
 }
